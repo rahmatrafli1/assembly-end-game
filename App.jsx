@@ -49,6 +49,7 @@ export default function AssemblyEndGame() {
       <section className="language-chips">{languageElements}</section>
       <section className="word">{letterElements}</section>
       <section className="keyboard">{keyboardElements}</section>
+      <button className="new-game">New Game</button>
     </main>
   );
 }

@@ -114,3 +114,15 @@ main {
   outline: 2px solid #f9f4da;
   outline-offset: 2px;
 }
+
+button.new-game {
+  background-color: #11b5e5;
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  width: 225px;
+  height: 40px;
+  padding: 6px 12px;
+  display: block;
+  margin: 36px auto 0;
+  cursor: pointer;
+}
