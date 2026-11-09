@@ -4,6 +4,8 @@ import { languages } from "./languages";
 export default function AssemblyEndGame() {
   const [currentWord, setCurrentWord] = React.useState("react");
 
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
   const languageElements = languages.map((lang) => (
     <span
       className="chip"
@@ -17,6 +19,10 @@ export default function AssemblyEndGame() {
   const letterElements = currentWord
     .split("")
     .map((letter, index) => <span key={index}>{letter.toUpperCase()}</span>);
+
+  const keyboardElements = alphabet
+    .split("")
+    .map((letter) => <button key={letter}>{letter.toUpperCase()}</button>);
 
   return (
     <main>
@@ -33,6 +39,7 @@ export default function AssemblyEndGame() {
       </section>
       <section className="language-chips">{languageElements}</section>
       <section className="word">{letterElements}</section>
+      <section className="keyboard">{keyboardElements}</section>
     </main>
   );
 }
