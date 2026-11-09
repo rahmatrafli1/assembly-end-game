@@ -54,3 +54,18 @@ main {
   margin: 5px 0 0;
   font-size: 1rem;
 }
+
+.language-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 28px;
+}
+
+.chip {
+  border-radius: 3px;
+  padding: 4.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
