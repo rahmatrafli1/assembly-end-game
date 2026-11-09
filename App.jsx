@@ -1,5 +1,6 @@
 import React from "react";
 import { languages } from "./languages";
+import { clsx } from "clsx";
 
 export default function AssemblyEndGame() {
   const [currentWord, setCurrentWord] = React.useState("react");
@@ -19,7 +20,11 @@ export default function AssemblyEndGame() {
 
   const letterElements = currentWord
     .split("")
-    .map((letter, index) => <span key={index}>{letter.toUpperCase()}</span>);
+    .map((letter, index) => (
+      <span key={index}>
+        {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+      </span>
+    ));
 
   function addGuessedLetter(letter) {
     setGuessedLetters((prevLetters) =>
@@ -27,11 +32,26 @@ export default function AssemblyEndGame() {
     );
   }
 
-  const keyboardElements = alphabet.split("").map((letter) => (
-    <button key={letter} onClick={() => addGuessedLetter(letter)}>
-      {letter.toUpperCase()}
-    </button>
-  ));
+  const keyboardElements = alphabet.split("").map((letter) => {
+    const isGuessed = guessedLetters.includes(letter);
+    const isCorrect = isGuessed && currentWord.includes(letter);
+    const isWrong = isGuessed && !currentWord.includes(letter);
+
+    const className = clsx({
+      correct: isCorrect,
+      wrong: isWrong,
+    });
+
+    return (
+      <button
+        key={letter}
+        className={className}
+        onClick={() => addGuessedLetter(letter)}
+      >
+        {letter.toUpperCase()}
+      </button>
+    );
+  });
 
   return (
     <main>
