@@ -3,6 +3,7 @@ import { languages } from "./languages";
 
 export default function AssemblyEndGame() {
   const [currentWord, setCurrentWord] = React.useState("react");
+  const [guessedLetters, setGuessedLetters] = React.useState([]);
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -20,9 +21,17 @@ export default function AssemblyEndGame() {
     .split("")
     .map((letter, index) => <span key={index}>{letter.toUpperCase()}</span>);
 
-  const keyboardElements = alphabet
-    .split("")
-    .map((letter) => <button key={letter}>{letter.toUpperCase()}</button>);
+  function addGuessedLetter(letter) {
+    setGuessedLetters((prevLetters) =>
+      prevLetters.includes(letter) ? prevLetters : [...prevLetters, letter],
+    );
+  }
+
+  const keyboardElements = alphabet.split("").map((letter) => (
+    <button key={letter} onClick={() => addGuessedLetter(letter)}>
+      {letter.toUpperCase()}
+    </button>
+  ));
 
   return (
     <main>
