@@ -93,8 +93,9 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 320px;
   gap: 4px;
-  margin-top: 28px;
+  margin: 28px auto 0;
 }
 
 .chip {
@@ -187,4 +188,16 @@ button.new-game {
 
 .keyboard button.wrong {
   background-color: #ec5d49;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
