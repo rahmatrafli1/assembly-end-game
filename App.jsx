@@ -10,6 +10,8 @@ export default function AssemblyEndGame() {
     (letter) => !currentWord.includes(letter),
   ).length;
 
+  const isGameOver = wrongGuessCount >= languages.length - 1;
+
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
   const languageElements = languages.map((lang, index) => {
@@ -75,7 +77,7 @@ export default function AssemblyEndGame() {
       <section className="language-chips">{languageElements}</section>
       <section className="word">{letterElements}</section>
       <section className="keyboard">{keyboardElements}</section>
-      <button className="new-game">New Game</button>
+      {isGameOver && <button className="new-game">New Game</button>}
     </main>
   );
 }
