@@ -9,19 +9,20 @@ export default function AssemblyEndGame() {
   const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
-  console.log(wrongGuessCount);
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-  const languageElements = languages.map((lang) => (
-    <span
-      className="chip"
-      key={lang.name}
-      style={{ backgroundColor: lang.backgroundColor, color: lang.color }}
-    >
-      {lang.name}
-    </span>
-  ));
+  const languageElements = languages.map((lang, index) => {
+    const isLanguageLost = index < wrongGuessCount;
+    const className = clsx("chip", isLanguageLost && "lost");
+    const styles = { backgroundColor: lang.backgroundColor, color: lang.color };
+
+    return (
+      <span className={className} key={lang.name} style={styles}>
+        {lang.name}
+      </span>
+    );
+  });
 
   const letterElements = currentWord
     .split("")
