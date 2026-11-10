@@ -31,7 +31,7 @@ main {
   line-height: 1.4;
 }
 
-.game-status {
+.game-status.won {
   background-color: #10a95b;
   color: #f9f4da;
   margin-top: 28px;
@@ -44,13 +44,28 @@ main {
   align-items: center;
 }
 
-.game-status h2 {
+.game-status.lost {
+  background-color: #ba2a2a;
+  color: #f9f4da;
+  margin-top: 28px;
+  padding: 8px 0;
+  border-radius: 4px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-status.won h2,
+.game-status.lost h2 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 400;
 }
 
-.game-status p {
+.game-status.won p,
+.game-status.lost p {
   margin: 5px 0 0;
   font-size: 1rem;
 }
