@@ -1,7 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { languages } from "./languages";
 import { clsx } from "clsx";
 import { getFarewellText, getRandomWord } from "./utils";
+import ReactConfetti from "react-confetti";
+
+function useViewportSize() {
+  const get = () => ({
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
+  });
+  const [size, setSize] = useState(get);
+
+  useEffect(() => {
+    const onResize = () => setSize(get());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return size;
+}
 
 export default function AssemblyEndGame() {
   const [currentWord, setCurrentWord] = useState(() => getRandomWord());
@@ -117,8 +134,29 @@ export default function AssemblyEndGame() {
     setGuessedLetters([]);
   }
 
+  const { width, height } = useViewportSize();
+
+  useEffect(() => {
+    if (!isGameWon) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+      document.documentElement.style.overflow = "";
+    };
+  }, [isGameWon]);
+
   return (
     <main>
+      {isGameWon && (
+        <ReactConfetti
+          width={width}
+          height={height}
+          recycle={false}
+          numberOfPieces={500}
+        />
+      )}
       <header className="game-header">
         <h1>Assembly: Endgame</h1>
         <p>
