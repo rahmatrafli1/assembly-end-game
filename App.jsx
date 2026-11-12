@@ -36,13 +36,17 @@ export default function AssemblyEndGame() {
     );
   });
 
-  const letterElements = currentWord
-    .split("")
-    .map((letter, index) => (
-      <span key={index}>
-        {guessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+  const letterElements = currentWord.split("").map((letter, index) => {
+    const isGuessed = guessedLetters.includes(letter);
+    const shouldReveal = isGuessed || isGameLost;
+    const className = clsx(isGameLost && !isGuessed && "missed-letter");
+
+    return (
+      <span key={index} className={className}>
+        {shouldReveal ? letter.toUpperCase() : ""}
       </span>
-    ));
+    );
+  });
 
   function addGuessedLetter(letter) {
     setGuessedLetters((prevLetters) =>
