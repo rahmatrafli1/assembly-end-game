@@ -24,15 +24,20 @@ export default function AssemblyEndGame() {
   const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
 
-  const numGuessesLeft = languages.length - 1;
+  const TIME_LIMIT = 60;
+  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
+
+  const maxWrongGuesses = languages.length - 1;
   const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
+  const numGuessesLeft = maxWrongGuesses - wrongGuessCount;
 
   const isGameWon = currentWord
     .split("")
     .every((letter) => guessedLetters.includes(letter));
-  const isGameLost = wrongGuessCount >= numGuessesLeft;
+  const isTimeUp = timeLeft <= 0;
+  const isGameLost = !isGameWon && (numGuessesLeft <= 0 || isTimeUp);
   const isGameOver = isGameWon || isGameLost;
 
   const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
@@ -124,7 +129,11 @@ export default function AssemblyEndGame() {
     return (
       <>
         <h2>Game over!</h2>
-        <p>You lose! Better start learning Assembly 😭</p>
+        <p>
+          {isTimeUp
+            ? "Time's up! ⏰"
+            : "You lose! Better start learning Assembly 😭"}
+        </p>
       </>
     );
   }
@@ -132,6 +141,7 @@ export default function AssemblyEndGame() {
   function startNewGame() {
     setCurrentWord(getRandomWord());
     setGuessedLetters([]);
+    setTimeLeft(TIME_LIMIT);
   }
 
   const { width, height } = useViewportSize();
@@ -147,6 +157,12 @@ export default function AssemblyEndGame() {
     };
   }, [isGameWon]);
 
+  useEffect(() => {
+    if (isGameWon || isGameLost) return;
+    const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    return () => clearInterval(id);
+  }, [isGameWon, isGameLost]);
+
   return (
     <main>
       {isGameWon && (
@@ -156,6 +172,22 @@ export default function AssemblyEndGame() {
           recycle={false}
           numberOfPieces={500}
         />
+      )}
+      {isGameLost && (
+        <div className="anti-confetti" aria-hidden="true">
+          {Array.from({ length: 30 }, (_, i) => (
+            <span
+              key={i}
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${2 + Math.random() * 3}s`,
+              }}
+            >
+              {["💀", "☠️", "🐛", "💥"][i % 4]}
+            </span>
+          ))}
+        </div>
       )}
       <header className="game-header">
         <h1>Assembly: Endgame</h1>
@@ -187,6 +219,10 @@ export default function AssemblyEndGame() {
         </p>
       </section>
       <section className="keyboard">{keyboardElements}</section>
+      <p className="guesses-left">
+        Remaining guesses: <strong>{numGuessesLeft}</strong>
+      </p>
+      <p className={clsx("timer", timeLeft <= 10 && "danger")}>⏱ {timeLeft}s</p>
       {isGameOver && (
         <button className="new-game" onClick={startNewGame}>
           New Game

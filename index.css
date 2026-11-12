@@ -182,7 +182,7 @@ button.new-game {
   height: 40px;
   padding: 6px 12px;
   display: block;
-  margin: 36px auto 0;
+  margin: 20px auto 0;
   cursor: pointer;
 }
 
@@ -211,4 +211,26 @@ canvas {
   top: 0;
   left: 0;
   pointer-events: none;
+}
+
+.anti-confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.anti-confetti span {
+  position: absolute;
+  top: -2rem;
+  font-size: 1.5rem;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0.6;
+  }
 }
