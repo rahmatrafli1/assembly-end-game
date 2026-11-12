@@ -108,6 +108,11 @@ export default function AssemblyEndGame() {
     );
   }
 
+  function startNewGame() {
+    setCurrentWord(getRandomWord());
+    setGuessedLetters([]);
+  }
+
   return (
     <main>
       <header className="game-header">
@@ -140,7 +145,11 @@ export default function AssemblyEndGame() {
         </p>
       </section>
       <section className="keyboard">{keyboardElements}</section>
-      {isGameOver && <button className="new-game">New Game</button>}
+      {isGameOver && (
+        <button className="new-game" onClick={startNewGame}>
+          New Game
+        </button>
+      )}
     </main>
   );
 }
