@@ -1,10 +1,10 @@
 import React from "react";
 import { languages } from "./languages";
 import { clsx } from "clsx";
-import { getFarewellText } from "./utils";
+import { getFarewellText, getRandomWord } from "./utils";
 
 export default function AssemblyEndGame() {
-  const [currentWord, setCurrentWord] = React.useState("react");
+  const [currentWord, setCurrentWord] = React.useState(() => getRandomWord());
   const [guessedLetters, setGuessedLetters] = React.useState([]);
 
   const numGuessesLeft = languages.length - 1;
